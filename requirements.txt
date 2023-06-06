@@ -1,0 +1,11 @@
+dash
+pandas
+datacube
+dash_mantine_components
+dash-extensions
+geopandas
+pystac-client
+odc-stac
+deafrica-tools
+zarr
+# dask-geopandas
