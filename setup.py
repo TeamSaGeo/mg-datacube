@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from datetime import date, datetime
 import dash_mantine_components as dmc
-import io, os
+import os
 import geopandas as gpd
 from zipfile import ZipFile
 from deafrica_tools.spatial import xr_rasterize
@@ -13,7 +13,6 @@ import xarray as xr
 from pystac_client import Client
 from odc.stac import configure_rio, stac_load
 import dask.distributed
-import s3fs
 from deafrica_tools.load_era5 import load_era5
 
 app = Dash(__name__)
@@ -184,6 +183,7 @@ def update_data(selected_collection,date_range, selected_level,location):
         ds = ds.where(mask)
 
     var_name = list(ds.data_vars)[0]
+    print(ds)
     ds = ds[var_name].compute().to_dict()
     return ds
 
