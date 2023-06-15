@@ -17,7 +17,7 @@ import s3fs
 from deafrica_tools.load_era5 import load_era5
 
 app = Dash(__name__)
-
+server = app.server
 
 #------------Début recherche de la liste des collections -------------------
 configure_rio(
