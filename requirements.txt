@@ -1,11 +1,14 @@
 dash
-pandas
-datacube
+pandas==2.0.1
+datacube==1.8.12
 dash_mantine_components
 dash-extensions
 geopandas
-pystac-client
+gdal==3.4.3
+pystac-client==0.6.1
 odc-stac
-deafrica-tools
+deafrica-tools==1.0.4
 zarr
+gunicorn
+s3fs
 # dask-geopandas

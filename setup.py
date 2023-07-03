@@ -14,9 +14,12 @@ from pystac_client import Client
 from odc.stac import configure_rio, stac_load
 import dask.distributed
 from deafrica_tools.load_era5 import load_era5
+# from flask import Flask
 
+# server = Flask(__name__)
+# app = Dash(server=server)
 app = Dash(__name__)
-
+server = app.server
 
 #------------Début recherche de la liste des collections -------------------
 configure_rio(
@@ -25,6 +28,7 @@ configure_rio(
     AWS_S3_ENDPOINT="s3.af-south-1.amazonaws.com",
 )
 catalog = Client.open("https://explorer.digitalearth.africa/stac")
+
 # collections = [collection.id for collection in catalog.get_collections()]
 collections = ["rainfall_chirps_monthly", "rainfall_chirps_daily", "air_temperature_at_2_metres_monthly", "air_temperature_at_2_metres_daily"]
 #------------Fin recherche de la liste des collections -------------------
@@ -141,7 +145,7 @@ def update_data(selected_collection,date_range, selected_level,location):
         collections=[selected_collection],
         datetime=f"{date_range[0]}/{date_range[1]}",
         )
-    items = list(query.get_items())
+    items = list(query.items())
     lat, lon = -18.7557, 46.8644  # Madagascar
     buffer_lat, buffer_lon = 7, 4
 
@@ -290,4 +294,4 @@ def download_data(n_clicks, dict_data, selected_collection, selected_level,locat
     return dcc.send_data_frame(output_df.to_csv, f"{selected_collection}.csv", sep = ';')
 
 if __name__ == '__main__':
-    app.run_server(debug=True, dev_tools_ui=True)
+    app.run_server(debug=True, dev_tools_ui=True, host="0.0.0.0", port="80")
