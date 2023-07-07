@@ -187,7 +187,6 @@ def update_data(selected_collection,date_range, selected_level,location):
         ds = ds.where(mask)
 
     var_name = list(ds.data_vars)[0]
-    print(ds)
     ds = ds[var_name].compute().to_dict()
     return ds
 
@@ -201,7 +200,7 @@ def get_mean_data_per_location(mask_data,selected_level,location):
         ds_location = mask_data.where(df_per_location_mask)
         ds_per_location.append(ds_location.mean(['latitude', 'longitude']).drop('spatial_ref'))
 
-    concated_ds = xr.concat(ds_per_location,dim=location)
+    concated_ds = xr.concat(ds_per_location,dim=location).rename({"concat_dim":location_level[selected_level]})
     return concated_ds
 
 #------------Fin Mise à jour des données -------------------
@@ -291,7 +290,12 @@ def download_data(n_clicks, dict_data, selected_collection, selected_level,locat
         concated_ds = split_date_ds.set_index(time=("year", "month", "day")).unstack("time")
 
     output_df = concated_ds.to_dataframe()
-    return dcc.send_data_frame(output_df.to_csv, f"{selected_collection}.csv", sep = ';')
+
+    if "temperature" in selected_collection:
+        columns = list(filter(lambda x: x!="temperature", output_df.index.names))
+        output_df = output_df.pivot_table("air_temperature_at_2_metres",columns, "temperature")
+
+    return dcc.send_data_frame(output_df.to_csv, f"{selected_collection}.csv", sep = ';', decimal=",")
 
 if __name__ == '__main__':
     app.run_server(debug=True, dev_tools_ui=True, host="0.0.0.0", port="80")
