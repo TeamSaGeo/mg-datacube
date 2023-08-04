@@ -11,4 +11,4 @@ deafrica-tools==1.0.4
 zarr
 gunicorn
 s3fs
-# dask-geopandas
+dash[diskcache]
