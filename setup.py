@@ -1,12 +1,10 @@
-from dash import Dash, html, dcc, callback, Output, Input, State, DiskcacheManager, CeleryManager, ctx,MATCH, ALL
-import base64
-import io
+from dash import Dash, html, dcc, callback, Output, Input, State, DiskcacheManager, CeleryManager, ALL
+import base64, io, os
 import plotly.express as px
 import pandas as pd
 import numpy as np
 from datetime import date, datetime
 import dash_mantine_components as dmc
-import os
 import geopandas as gpd
 from zipfile import ZipFile
 from deafrica_tools.spatial import xr_rasterize
@@ -61,7 +59,7 @@ app.layout = html.Div([
         html.Div(children=[
             html.Label("Paramètres"),
             dcc.Dropdown(collections,"rainfall_chirps_monthly", id='collection-selection', clearable=False),
-            html.Div(id='collection-description', style={'margin-bottom': 20}),
+            html.Div(id='collection-description', style={'margin-bottom': 10}),
 
             dmc.DateRangePicker(id='my-date-range-picker',label="Plage de date",style={'margin-bottom': 20}),
 
@@ -79,7 +77,7 @@ app.layout = html.Div([
         ], style={'padding': 20, 'background-color': "cadetblue",  'flex': 1}),
 
         html.Div(children=[
-            dcc.Graph(id='facet-graph', style={'width': '650px', 'height': '500px'}),
+            dcc.Graph(id='facet-graph', style={'width': '600px', 'height': '500px'}),
         ], style={'padding': 10, 'margin-left': 20, 'flex': 1})
 
     ], style={'display': 'flex', 'flex-direction': 'row'}),
@@ -101,14 +99,22 @@ def set_collection_options(selected_collection):
         min_date = start_date.date()
         max_date = end_date.date()
         info = collection.description
+        data_source = html.A("CHIRPS", href="https://www.chc.ucsb.edu/data/chirps" )
+        spatial_resolution = html.A("5.55 km")
+        unite = html.A("mm")
     else:
         min_date = datetime(1979, 1, 1).date()
         max_date = date.today()
         info = "Air temperature estimate"
+        data_source = html.A("AWS Public Dataset Program", href="https://registry.opendata.aws/ecmwf-era5/")
+        spatial_resolution = html.A("31 km")
+        unite = html.A("°C")
 
     description = [html.B('Description: '), info , html.Br(),
-                    html.B("Date minimum : "),min_date, html.Br(),
-                    html.B("Date maximum: "),max_date]
+                    html.B("Source: "), data_source, html.Br(),
+                    html.B("Plage de dates: "), min_date, html.B(" à "), max_date, html.Br(),
+                    html.B("Résolution spatiale: "), spatial_resolution, html.B(";\t\tUnité: "), unite
+                    ]
 
     return min_date, max_date, description
 #------------ Fin Mise à jour de la date range -------------------
