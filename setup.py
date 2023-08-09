@@ -121,7 +121,7 @@ def set_collection_options(selected_collection):
 
 #------------Début Choix du type de données à exporter -------------------
 limit_admin = html.Div([
-        html.Label("Limite administratif"),
+        html.Label("Limite administrative"),
         dcc.Dropdown(id='location-level-selection',
                      options=location_level,
                      clearable=False, style={'margin-bottom': 20}),
