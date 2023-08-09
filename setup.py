@@ -187,7 +187,7 @@ def update_output_points(contents, filename):
         return html.Div([html.A(e)], style={'margin-bottom': 20, 'color':"rgb(154, 42, 42)"}), None
 #------------Fin Mise à jour des points entrées par l'utilisateur -------------------
 
-# #------------Début Mise à jour des limites administratifs -------------------
+# #------------Début Mise à jour des limites administratives -------------------
 @app.callback(
     Output("location-selection", "options"),
     Input("location-level-selection", "value"),
@@ -205,7 +205,7 @@ def update_location_options(selected_value):
 )
 def update_location_value(location_options):
     return []
-#------------Fin Mise à jour des limites administratifs -------------------
+#------------Fin Mise à jour des limites administratives -------------------
 
 #------------Début Mise à jour des données -------------------
 @callback(
@@ -227,7 +227,7 @@ def search_data(n_clicks,selected_collection,date_range, children):
         raise PreventUpdate
 
     location = None
-    if children[0][0]["props"]["children"] == "Limite administratif":
+    if children[0][0]["props"]["children"] == "Limite administrative":
         try:
             selected_level = children[0][1]["props"]["value"]
             location = children[0][3]["props"]["value"]
@@ -402,7 +402,7 @@ def download_data(n_clicks, dict_data, selected_collection, children):
         raise PreventUpdate
 
     selected_level = None
-    if children[0][0]["props"]["children"] == "Limite administratif":
+    if children[0][0]["props"]["children"] == "Limite administrative":
         selected_level = children[0][1]["props"]["value"]
 
     concated_ds = xr.DataArray.from_dict(dict_data)
