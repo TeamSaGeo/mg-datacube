@@ -63,7 +63,7 @@ app.layout = html.Div([
 
             dmc.DateRangePicker(id='my-date-range-picker',label="Plage de date",style={'margin-bottom': 20}),
 
-            html.Label("Type géométrique"),
+            html.Label("Type du vecteur"),
             dcc.RadioItems(['Polygone', 'Point particulier'], 'Polygone',id="radio_items",style={'margin-bottom': 20}),
             html.Div(id = "output_type"),
 
