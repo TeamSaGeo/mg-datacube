@@ -434,7 +434,7 @@ def download_data(n_clicks, dict_data, selected_collection, children):
     else:
         output_df = output_df.reset_index()
 
-    return dcc.send_data_frame(output_df.to_csv, f"{selected_collection}.csv", sep = ';', decimal=",", index=False)
+    return dcc.send_data_frame(output_df.to_csv, f"{selected_collection}.csv", sep = ';', index=False)
 # ------------Fin Export en CSV  -------------------
 
 if __name__ == '__main__':
